@@ -1,0 +1,29 @@
+{% load static %}
+{% if user.is_authenticated %}
+    {% if user.userprofile %}
+        {% include 'user/header.html' %}
+    {% else %}
+        {% include 'advocate/header.html' %}
+    {% endif %}
+{% endif %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Case</title>
+</head>
+<body>
+    <h2>Edit Case: {{ case.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="title">Case Title:</label>
+        <input type="text" name="title" value="{{ case.title }}" required><br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" required>{{ case.description }}</textarea><br>
+
+        <button type="submit">Update Case</button>
+    </form>
+    <a href="{% url 'view_cases' %}">Back to Cases</a>
+</body>
+</html>

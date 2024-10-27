@@ -1,0 +1,133 @@
+{% include "admin/header.html" %}
+{% load static %}
+<h3 class="mt-4">Advocates List</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Practice Area</th>
+            <th>Experience</th>
+            <th>Mobile</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for advocate in advocates %}
+        <tr>
+            <td>{{ advocate.advocate.username }}</td>  <!-- Correctly access username -->
+            <td>{{ advocate.advocate.email }}</td> 
+            <td>{{ advocate.practice_area }}</td>
+            <td>{{ advocate.experience }} years</td>
+            <td>{{ advocate.mobile }}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateAdvocateModal{{ advocate.id }}">
+                    Update
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAdvocateModal{{ advocate.id }}">
+                    Delete
+                </button>
+                {% if not advocate.approved %}
+                <a href="{% url 'approve_advocate' advocate.id %}" class="btn btn-success btn-sm">Approve</a>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- Update Advocate Modal -->
+        <div class="modal fade" id="updateAdvocateModal{{ advocate.id }}" tabindex="-1" aria-labelledby="updateAdvocateModalLabel{{ advocate.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateAdvocateModalLabel{{ advocate.id }}">Update Advocate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{% url 'update_advocate' advocate.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="practiceArea">Practice Area</label>
+                                <input type="text" class="form-control" id="practiceArea" name="practice_area" value="{{ advocate.practice_area }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="experience">Experience (years)</label>
+                                <input type="number" class="form-control" id="experience" name="experience" value="{{ advocate.experience }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile">Mobile</label>
+                                <input type="text" class="form-control" id="mobile" name="mobile" value="{{ advocate.mobile }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Advocate Modal -->
+        <div class="modal fade" id="deleteAdvocateModal{{ advocate.id }}" tabindex="-1" aria-labelledby="deleteAdvocateModalLabel{{ advocate.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteAdvocateModalLabel{{ advocate.id }}">Delete Advocate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete advocate {{ advocate.advocate.username }}?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <form action="{% url 'delete_advocate' advocate.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </tbody>
+</table>
+     <!-- All JS Custom Plugins Link Here -->
+     <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+     <!-- jQuery, Popper, Bootstrap -->
+     <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+     <script src="{% static 'assets/js/popper.min.js' %}"></script>
+     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+     <!-- jQuery Mobile Menu -->
+     <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+     
+     <!-- jQuery Slick, Owl-Carousel Plugins -->
+     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+     <script src="{% static 'assets/js/slick.min.js' %}"></script>
+     
+     <!-- One Page, Animated-Headline -->
+     <script src="{% static 'assets/js/wow.min.js' %}"></script>
+     <script src="{% static 'assets/js/animated.headline.js' %}"></script>
+     <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+     
+     <!-- Scrollup, nice-select, sticky -->
+     <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+     <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+     <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+     
+     <!-- Counter, waypoint -->
+     <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+     <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+     
+     <!-- Contact Form and AjaxChimp -->
+     <script src="{% static 'assets/js/contact.js' %}"></script>
+     <script src="{% static 'assets/js/jquery.form.js' %}"></script>
+     <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+     <script src="{% static 'assets/js/mail-script.js' %}"></script>
+     <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+     
+     <!-- jQuery Plugins, main jQuery -->
+     <script src="{% static 'assets/js/plugins.js' %}"></script>
+     <script src="{% static 'assets/js/main.js' %}"></script>

@@ -1,0 +1,101 @@
+{% include "admin/header.html" %}
+{% load static %}
+<div class="container">
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4">
+            <div class="card my-3">
+                <div class="card-body text-center">
+                    {% if user.profile_pic %}
+                        <img src="{{ user.profile_pic.url }}" class="rounded-circle mb-3" alt="{{ user.first_name }}'s profile picture" style="width: 100px; height: 100px;">
+                    {% else %}
+                        <img src="{% static 'assets/img/default-profile.png' %}" class="rounded-circle mb-3" alt="Default profile picture" style="width: 100px; height: 100px;">
+                    {% endif %}
+                    <h5 class="card-title">{{ user.first_name }} {{ user.last_name }}</h5>
+                    <p class="card-text"><strong>Username:</strong> {{ user.user.username }}</p>
+                    <p class="card-text"><strong>Email:</strong> {{ user.user.email }}</p>
+                    
+                    <!-- Button to open modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal{{ user.id }}">
+                        Update
+                    </button>
+                    
+                    <!-- Delete Form -->
+                    <form action="{% url 'delete_user' user.id %}" method="POST" class="d-inline-block">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Modal for each user -->
+        <div class="modal fade" id="updateModal{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel{{ user.id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel{{ user.id }}">Update User - {{ user.first_name }} {{ user.last_name }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{% url 'update_user' user.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="first_name{{ user.id }}">First Name</label>
+                                <input type="text" class="form-control" id="first_name{{ user.id }}" name="first_name" value="{{ user.first_name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name{{ user.id }}">Last Name</label>
+                                <input type="text" class="form-control" id="last_name{{ user.id }}" name="last_name" value="{{ user.last_name }}" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- All JS Custom Plugins Link Here -->
+<script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- jQuery, Popper, Bootstrap -->
+<script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<!-- jQuery Mobile Menu -->
+<script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- jQuery Slick, Owl-Carousel Plugins -->
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/slick.min.js' %}"></script>
+
+<!-- One Page, Animated-Headline -->
+<script src="{% static 'assets/js/wow.min.js' %}"></script>
+<script src="{% static 'assets/js/animated.headline.js' %}"></script>
+<script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+
+<!-- Counter, waypoint -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+<script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+
+<!-- Contact Form and AjaxChimp -->
+<script src="{% static 'assets/js/contact.js' %}"></script>
+<script src="{% static 'assets/js/jquery.form.js' %}"></script>
+<script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'assets/js/mail-script.js' %}"></script>
+<script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- jQuery Plugins, main jQuery -->
+<script src="{% static 'assets/js/plugins.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>

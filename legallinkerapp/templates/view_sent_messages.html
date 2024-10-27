@@ -1,0 +1,66 @@
+{% load static %}
+{% if user.is_authenticated %}
+    {% if user.userprofile %}
+        {% include 'user/header.html' %}
+    {% else %}
+        {% include 'advocate/header.html' %}
+    {% endif %}
+{% endif %}
+<div class="container">
+    <h2>Your Sent Messages</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>To</th>
+                <th>Message</th>
+                <th>Sent At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in messages %}
+            <tr>
+                <td>{{ message.recipient.username }}</td>
+                <td>{{ message.content }}</td>
+                <td>{{ message.created_at }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No sent messages found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'view_received_messages' %}">View Received Messages</a>
+</div>
+
+<!-- All JS Custom Plugins Link Here -->
+<script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- jQuery, Popper, Bootstrap -->
+<script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<!-- jQuery Mobile Menu -->
+<script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- jQuery Slick, Owl-Carousel Plugins -->
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/slick.min.js' %}"></script>
+
+<!-- One Page, Animated-Headline -->
+<script src="{% static 'assets/js/wow.min.js' %}"></script>
+<script src="{% static 'assets/js/animated.headline.js' %}"></script>
+<script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+
+<!-- Counter, waypoint -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+<script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+
+<!-- jQuery Plugins, main jQuery -->
+<script src="{% static 'assets/js/plugins.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+

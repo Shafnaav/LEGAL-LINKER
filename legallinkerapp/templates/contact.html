@@ -1,0 +1,104 @@
+<!-- contact.html -->
+{% include "header.html" %}
+{% load static %}
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<!-- Contact form Start -->
+<div class="contact-form bg-height pb-160" data-background="{% static 'assets/img/about/contact_bg.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-8 offset-lg-2 offset-xl-2">
+                <div class="form-wrapper">
+                    <!-- Section Title -->
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="section-tittle section-tittle-f text-center mb-70">
+                                <h2>Free Consultation</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Section Title -->
+                    <form id="contact-form" action="{% url 'contact' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-box user-icon mb-30">
+                                    <input type="text" name="name" placeholder="Name" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-box email-icon mb-30">
+                                    <input type="text" name="phone" placeholder="Phone" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 mb-30">
+                                <div class="form-box subject-icon mb-30">
+                                    <input type="text" name="subject" placeholder="Subject" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-box email-icon mb-30">
+                                    <input type="email" name="email" placeholder="Email" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-box message-icon mb-30">
+                                    <textarea name="message" placeholder="Your Message" required></textarea>
+                                </div>
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endif %}
+                                <div class="submit-info">
+                                    <button class="submit-btn2" type="submit">Submit Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact form End -->
+
+    <!-- All JS Custom Plugins Link Here -->
+    <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+    <!-- jQuery, Popper, Bootstrap -->
+    <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <!-- jQuery Mobile Menu -->
+    <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+    
+    <!-- jQuery Slick, Owl-Carousel Plugins -->
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/slick.min.js' %}"></script>
+    
+    <!-- One Page, Animated-Headline -->
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <script src="{% static 'assets/js/animated.headline.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+    
+    <!-- Scrollup, nice-select, sticky -->
+    <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+    
+    <!-- Counter, waypoint -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    
+    <!-- Contact Form and AjaxChimp -->
+    <script src="{% static 'assets/js/contact.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.form.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'assets/js/mail-script.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+    
+    <!-- jQuery Plugins, main jQuery -->
+    <script src="{% static 'assets/js/plugins.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>

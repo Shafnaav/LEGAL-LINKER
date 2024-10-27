@@ -1,0 +1,69 @@
+{% load static %}
+{% include "header.html" %}
+<!-- templates/recent_case_studies.html -->
+<section class="recent-case-area section-padding30">
+    <div class="container">
+        <!--Section Title-->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="section-tittle text-center mb-70">
+                    <h2>Recent Case Studies</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for case in recent_cases %}
+                <div class="col-xl-4 col-lg-4 col-md-6">
+                    <div class="single-practice mb-30">
+                        <div class="practice-caption2">
+                            <h4>{{ case.title }}</h4>
+                            <p>{{ case.description|truncatewords:20 }}</p> <!-- Truncate description for brevity -->
+                            <a href="{% url 'case_detail' case.id %}" class="read-more1">Read more</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No recent cases available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+    <!-- All JS Custom Plugins Link Here -->
+    <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+    <!-- jQuery, Popper, Bootstrap -->
+    <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <!-- jQuery Mobile Menu -->
+    <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+    
+    <!-- jQuery Slick, Owl-Carousel Plugins -->
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/slick.min.js' %}"></script>
+    
+    <!-- One Page, Animated-Headline -->
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <script src="{% static 'assets/js/animated.headline.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+    
+    <!-- Scrollup, nice-select, sticky -->
+    <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+    
+    <!-- Counter, waypoint -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    
+    <!-- Contact Form and AjaxChimp -->
+    <script src="{% static 'assets/js/contact.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.form.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'assets/js/mail-script.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+    
+    <!-- jQuery Plugins, main jQuery -->
+    <script src="{% static 'assets/js/plugins.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>

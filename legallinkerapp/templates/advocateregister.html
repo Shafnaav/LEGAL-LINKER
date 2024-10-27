@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Register as Advocate</title>
+</head>
+<body>
+
+{% include "header.html" %} <!-- Include the header -->
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Register as Advocate</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" class="border p-4 rounded bg-light">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" name="password" required>
+        </div>
+
+        <!-- Advocate specific fields -->
+        <div class="form-group">
+            <label for="id_card">ID Card:</label>
+            <input type="text" class="form-control" name="id_card" required>
+        </div>
+
+        <div class="form-group">
+            <label for="practice_area">Practice Area:</label>
+            <textarea class="form-control" name="practice_area" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="experience">Experience (in years):</label>
+            <input type="number" class="form-control" name="experience" required>
+        </div>
+
+        <div class="form-group">
+            <label for="achievements">Achievements:</label>
+            <textarea class="form-control" name="achievements"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="languages">Languages:</label>
+            <input type="text" class="form-control" name="languages" required>
+        </div>
+
+        <div class="form-group">
+            <label for="courts">Courts:</label>
+            <textarea class="form-control" name="courts" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" class="form-control" name="address" required>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" class="form-control" name="city" required>
+        </div>
+
+        <div class="form-group">
+            <label for="pin">Pin:</label>
+            <input type="text" class="form-control" name="pin" required>
+        </div>
+
+        <div class="form-group">
+            <label for="mobile">Mobile:</label>
+            <input type="text" class="form-control" name="mobile" required>
+        </div>
+
+        <div class="form-group">
+           
+            <select class="form-control" name="location" required>
+                {% for location in locations %}
+                <option value="{{ location.id }}">{{ location.city }}, {{ location.state }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- All JS Custom Plugins Link Here -->
+    <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+    <!-- jQuery, Popper, Bootstrap -->
+    <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <!-- jQuery Mobile Menu -->
+    <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+    
+    <!-- jQuery Slick, Owl-Carousel Plugins -->
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/slick.min.js' %}"></script>
+    
+    <!-- One Page, Animated-Headline -->
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <script src="{% static 'assets/js/animated.headline.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+    
+    <!-- Scrollup, nice-select, sticky -->
+    <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+    
+    <!-- Counter, waypoint -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    
+    <!-- Contact Form and AjaxChimp -->
+    <script src="{% static 'assets/js/contact.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.form.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'assets/js/mail-script.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+    
+    <!-- jQuery Plugins, main jQuery -->
+    <script src="{% static 'assets/js/plugins.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+</html>

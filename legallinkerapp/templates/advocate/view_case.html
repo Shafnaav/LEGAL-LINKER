@@ -1,0 +1,21 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Cases</title>
+</head>
+<body>
+    <h2>Your Cases</h2>
+    <ul>
+        {% for case in cases %}
+            <li>
+                {{ case.title }} - <a href="{% url 'edit_case' case.id %}">Edit</a>
+                <a href="{% url 'delete_case' case.id %}">Delete</a>
+            </li>
+        {% empty %}
+            <li>No cases found.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'advocate_dashboard' %}">Back to Dashboard</a>
+</body>
+</html>

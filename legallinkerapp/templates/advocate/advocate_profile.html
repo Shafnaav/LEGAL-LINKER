@@ -1,0 +1,157 @@
+{% load static %}
+{% if user.is_authenticated %}
+    {% if user.userprofile %}
+        {% include 'user/header.html' %}
+    {% else %}
+        {% include 'advocate/header.html' %}
+    {% endif %}
+{% endif %}
+
+{% block content %}
+<div class="container">
+    <h2>Your Advocate Profile</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ advocate_profile.advocate.username }}</h5>
+            <p class="card-text">ID Card: {{ advocate_profile.id_card }}</p>
+            <p class="card-text">Practice Area: {{ advocate_profile.practice_area }}</p>
+            <p class="card-text">Experience: {{ advocate_profile.experience }} years</p>
+            <p class="card-text">Languages: {{ advocate_profile.languages }}</p>
+            <a href="#updateAdvocateProfileModal" data-toggle="modal" class="btn btn-primary">Edit Advocate Profile</a>
+            <a href="#changeAdvocatePasswordModal" data-toggle="modal" class="btn btn-secondary">Change Password</a>
+        </div>
+    </div>
+
+    <!-- Advocate Profile Update Modal -->
+    <div class="modal fade" id="updateAdvocateProfileModal" tabindex="-1" role="dialog" aria-labelledby="updateAdvocateProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateAdvocateProfileModalLabel">Edit Advocate Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{% url 'update_advocate_profile' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="id_card">ID Card:</label>
+                            <input type="text" class="form-control" name="id_card" value="{{ advocate_profile.id_card }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="practice_area">Practice Area:</label>
+                            <textarea class="form-control" name="practice_area">{{ advocate_profile.practice_area }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">Experience (Years):</label>
+                            <input type="number" class="form-control" name="experience" value="{{ advocate_profile.experience }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="achievements">Achievements:</label>
+                            <textarea class="form-control" name="achievements">{{ advocate_profile.achievements }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="languages">Languages:</label>
+                            <input type="text" class="form-control" name="languages" value="{{ advocate_profile.languages }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="courts">Courts:</label>
+                            <textarea class="form-control" name="courts">{{ advocate_profile.courts }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address:</label>
+                            <input type="text" class="form-control" name="address" value="{{ advocate_profile.address }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City:</label>
+                            <input type="text" class="form-control" name="city" value="{{ advocate_profile.city }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="pin">PIN Code:</label>
+                            <input type="text" class="form-control" name="pin" value="{{ advocate_profile.pin }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile">Mobile:</label>
+                            <input type="text" class="form-control" name="mobile" value="{{ advocate_profile.mobile }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Advocate Password Modal -->
+    <div class="modal fade" id="changeAdvocatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changeAdvocatePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeAdvocatePasswordModalLabel">Change Advocate Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{% url 'change_advocate_password' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="current_password">Current Password:</label>
+                            <input type="password" class="form-control" name="current_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">New Password:</label>
+                            <input type="password" class="form-control" name="new_password" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- All JS Custom Plugins Link Here -->
+<script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<!-- jQuery, Popper, Bootstrap -->
+<script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<!-- jQuery Mobile Menu -->
+<script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+
+<!-- jQuery Slick, Owl-Carousel Plugins -->
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/slick.min.js' %}"></script>
+
+<!-- One Page, Animated-Headline -->
+<script src="{% static 'assets/js/wow.min.js' %}"></script>
+<script src="{% static 'assets/js/animated.headline.js' %}"></script>
+<script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+
+<!-- Counter, waypoint -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+<script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+
+<!-- Contact Form and AjaxChimp -->
+<script src="{% static 'assets/js/contact.js' %}"></script>
+<script src="{% static 'assets/js/jquery.form.js' %}"></script>
+<script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'assets/js/mail-script.js' %}"></script>
+<script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+
+<!-- jQuery Plugins, main jQuery -->
+<script src="{% static 'assets/js/plugins.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>

@@ -2,6 +2,16 @@
 
 {% load static %}
 {% include "advocate/header.html" %}
+
+{% if messages %}
+<div class="alert alert-danger">
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 <!-- Slider Area Start -->
 <div class="slider-area ">
     <div class="slider-active">

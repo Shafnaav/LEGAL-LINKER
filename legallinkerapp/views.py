@@ -29,7 +29,6 @@ def register(request):
         city = request.POST['city']
         pin = request.POST['pin']
         mobile = request.POST['mobile']
-        location_id = request.POST['location']
         
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
@@ -38,7 +37,6 @@ def register(request):
         user = User.objects.create_user(username=username, password=password, email=email)
         user.save()
 
-        location = Location.objects.get(id=location_id)
         advocate = Advocate(
             advocate=user,
             id_card=id_card,
@@ -51,7 +49,6 @@ def register(request):
             city=city,
             pin=pin,
             mobile=mobile,
-            location=location
         )
         advocate.save()
 
@@ -65,39 +62,45 @@ def register(request):
             messages.error(request, "Login failed. Please try again.")
             return redirect('login')  # Redirect to login page if authentication fails
 
-    locations = Location.objects.all()
-    return render(request, 'advocateregister.html', {'locations': locations})
+    return render(request, 'advocateregister.html',)
 
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        
+        # Attempt to authenticate the user
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             # Log in the user
             login(request, user)
 
-        if user.is_superuser:
-            return redirect('adminDashboard')
-        else:
-            # Check if the user is an advocate
-            try:
-                advocate = Advocate.objects.get(advocate=user)
-                if advocate.approved:  # Check if the advocate is approved
-                    return redirect('advocateDashboard')
-                else:
-                    messages.error(request, 'Your advocate account is not approved.')
-                    return redirect('login')
-            except Advocate.DoesNotExist:
-                # Check if the user is a regular user
+            if user.is_superuser:
+                return redirect('adminDashboard')
+            else:
+                # Check if the user is an advocate
                 try:
-                    user_profile = UserProfile.objects.get(user=user)
-                    if user_profile:  # Check if the user profile is approved
-                        return redirect('userDashboard')
-                except UserProfile.DoesNotExist:
-                    messages.error(request, 'Invalid username or password.')
-                    return redirect('login')
+                    advocate = Advocate.objects.get(advocate=user)
+                    if advocate.approved:  # Check if the advocate is approved
+                        return redirect('advocateDashboard')
+                    else:
+                        messages.error(request, 'Your advocate account is not approved.')
+                        return redirect('login')
+                except Advocate.DoesNotExist:
+                    # Check if the user is a regular user
+                    try:
+                        user_profile = UserProfile.objects.get(user=user)
+                        if user_profile:
+                            return redirect('userDashboard')
+                        
+                    except UserProfile.DoesNotExist:
+                        messages.error(request, 'No associated profile found.')
+                        return redirect('login')
+        else:
+            # Invalid credentials
+            messages.error(request, 'Invalid username or password.')
+            return redirect('login')
 
     return render(request, "login.html")
 
@@ -106,7 +109,7 @@ def advocate_adshboard(request):
 
 def adminDashboard(request):
     if not request.user.is_superuser:
-        return redirect('home')  # Redirect non-superusers to home
+        return redirect('adminDashboard')  # Redirect non-superusers to home
 
     # Fetch all advocates and users
     advocates = Advocate.objects.all()  # Fetch all advocates
@@ -211,14 +214,25 @@ def contact_view(request):
 def user_registration(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         profile_pic = request.FILES.get('profile_pic')
 
+        # Basic validation
+        if not username or not password or not email:
+            messages.error(request, "Username, email, and password are required.")
+            return render(request, 'user/register.html')
+
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return render(request, 'user/register.html')
+
         try:
             # Create user
-            user = User.objects.create_user(username=username, password=password)
+            user = User.objects.create_user(username=username, password=password, email=email)
             user.first_name = first_name
             user.last_name = last_name
             user.save()
@@ -281,41 +295,38 @@ def view_all_cases(request):
     # Render the cases in a template
     return render(request, 'user/view_cases.html', {'cases': cases})
 
+
 def view_advocates(request):
     advocates = Advocate.objects.all()
+    
+    # Get search parameters from the request
+    city = request.GET.get('city')
+    # experience = request.GET.get('experience')
+    practice_area = request.GET.get('practice_area')
+
+    # Filter advocates based on location
+    if city:
+        # location_parts = city.split(',')
+        
+        advocates = Advocate.objects.filter(city__icontains=city)
+            # models.Q(location__state__icontains=location_parts[0].strip()) |
+            # models.Q(location__country__icontains=location_parts[0].strip())
+    
+
+    # Filter by years of experience
+    # if experience:
+    #     try:
+    #         experience = int(experience)
+    #         advocates = advocates.filter(experience__gte=experience)
+    #     except ValueError:
+    #         pass
+
+    # Filter by practice area
+    if practice_area:
+        advocates = advocates.filter(practice_area__icontains=practice_area.strip())
+
     return render(request, 'user/view_advocates.html', {'advocates': advocates})
 
-@login_required
-def send_message(request, recipient_id):
-    recipient = User.objects.get(id=recipient_id)
-
-    if request.method == 'POST':
-        # Directly getting content from the POST request
-        content = request.POST.get('content')
-        if content:
-            Message.objects.create(
-                sender=request.user,
-                recipient=recipient,
-                content=content
-            )
-            messages.success(request, 'Message sent successfully!')
-            return redirect('view_sent_messages')  # Redirect to the messages view
-        else:
-            messages.error(request, 'Message cannot be empty.')
-
-    return render(request, 'send_messages.html', {'recipient': recipient})
-
-@login_required
-def view_sent_messages(request):
-    # Fetch messages sent by the logged-in user
-    messages = Message.objects.filter(sender=request.user).order_by('-created_at')
-    return render(request, 'view_sent_messages.html', {'messages': messages})
-
-@login_required
-def view_received_messages(request):
-    # Fetch messages received by the logged-in user
-    messages = Message.objects.filter(recipient=request.user).order_by('-created_at')
-    return render(request, 'view_received_messages.html', {'messages': messages})
 
 def view_all_users(request):
     users  = UserProfile.objects.all()
@@ -342,6 +353,22 @@ def delete_user(request, user_id):
         user_profile.delete()
         return HttpResponse("User deleted successfully!")
     return HttpResponse("Invalid request!", status=400)
+
+@login_required
+def delete_user_profile(request):
+    if request.method == 'POST':
+        # Get the user profile and user
+        user_profile = request.user.userprofile
+        user = request.user
+
+        # Delete the user profile and the user account
+        user_profile.delete()
+        user.delete()
+
+        messages.success(request, "Your account has been deleted successfully.")
+        return redirect('home')  # Change 'home' to your desired redirect URL
+
+    return render(request, 'user/delete_profile_confirm.html')
 
 @login_required
 def update_advocate(request, advocate_id):
@@ -377,14 +404,28 @@ def view_user_profile(request):
 @login_required
 def update_user_profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
+    
     if request.method == 'POST':
-        user_profile.first_name = request.POST.get('first_name')
-        user_profile.last_name = request.POST.get('last_name')
+        # Update the fields from the request
+        user_profile.first_name = request.POST.get('first_name', user_profile.first_name)
+        user_profile.last_name = request.POST.get('last_name', user_profile.last_name)
+        
+        # Update email for the user (User model)
+        email = request.POST.get('email')
+        if email:
+            request.user.email = email
+            request.user.save()
+            
+        phone_number = request.POST.get('phone_number')
+        if phone_number:
+            user_profile.phone_number = phone_number
+        # Handle profile picture upload
         if request.FILES.get('profile_pic'):
-            user_profile.profile_pic = request.FILES.get('profile_pic')
-        user_profile.save()
-        messages.success(request, 'Profile updated successfully!')
-        return redirect('view_user_profile')
+            user_profile.profile_pic = request.FILES['profile_pic']
+
+        user_profile.save()  # Save the updated profile
+        return redirect('view_user_profile')  # Redirect to a profile page or success page
+    
     return render(request, 'user/user_profile.html', {'user_profile': user_profile})
 
 @login_required
@@ -440,3 +481,120 @@ def change_advocate_password(request):
         else:
             messages.error(request, 'Current password is incorrect.')
     return redirect('view_advocate_profile')
+
+import datetime
+@login_required
+def chat_room_list(request):
+    user = request.user
+    user_profile = UserProfile.objects.filter(user=user).first()
+    advocate = Advocate.objects.filter(advocate=user).first()
+
+    # Get chat rooms where the user is either a UserProfile or Advocate
+    if user_profile:
+        chat_rooms = ChatRoom.objects.filter(user_profile=user_profile)
+    elif advocate:
+        chat_rooms = ChatRoom.objects.filter(advocate=advocate)
+    else:
+        chat_rooms = []
+
+    return render(request, 'chat/chat_room_list.html', {'chat_rooms': chat_rooms})
+
+@login_required
+def chat_room_detail(request, advocate_id):
+    # Get the UserProfile for the logged-in user
+    user_profile = UserProfile.objects.filter(user=request.user).first()
+    # Get the Advocate object using advocate_id
+    advocate = get_object_or_404(Advocate, id=advocate_id)
+
+    # Check if a chat room exists between the user profile and the advocate
+    chat_room, created = ChatRoom.objects.get_or_create(user_profile=user_profile, advocate=advocate)
+
+    # Retrieve all messages in the chat room
+    messages = Message.objects.filter(chat_room=chat_room).order_by('created_at')
+
+    return render(request, 'chat/chat_room_detail.html', {
+        'chat_room': chat_room,
+        'messages': messages
+    })
+    
+from django.utils import timezone
+
+@login_required
+def send_message(request, room_id):
+    # Get the chat room by ID or return 404 if not found
+    chat_room = get_object_or_404(ChatRoom, id=room_id)
+
+    # Check if the logged-in user is part of the chat room
+    if chat_room.user_profile.user != request.user and chat_room.advocate.advocate != request.user:
+        return redirect('chat_room_list')  # Redirect if user is unauthorized
+
+    # Process the POST request to send a message
+    if request.method == "POST":
+        content = request.POST.get('content', '').strip()
+
+        if content:
+            # Determine sender and recipient
+            sender = request.user
+            recipient = chat_room.advocate.advocate if sender == chat_room.user_profile.user else chat_room.user_profile.user
+
+            # Create and save the message
+            Message.objects.create(
+                chat_room=chat_room,
+                sender=sender,
+                recipient=recipient,
+                content=content,
+                created_at=timezone.now()
+            )
+            # Redirect back to the chat room detail view to display the message
+            return redirect('chat_room_detail', advocate_id=chat_room.advocate.id)
+
+    # If GET request or content is empty, just redirect to the chat room
+    return redirect('chat_room_detail', advocate_id=chat_room.advocate.id)
+
+
+@login_required
+def advocate_message_list(request):
+    # Get the Advocate instance for the logged-in user
+    advocate = Advocate.objects.filter(advocate=request.user).first()
+    if not advocate:
+        return redirect('home')  # Redirect if the user is not an advocate
+
+    # Get all chat rooms associated with this advocate
+    chat_rooms = ChatRoom.objects.filter(advocate=advocate)
+
+    return render(request, 'advocate/message_list.html', {
+        'chat_rooms': chat_rooms
+    })
+
+@login_required
+def advocate_chat_room_detail(request, room_id):
+    chat_room = get_object_or_404(ChatRoom, id=room_id)
+
+    # Ensure the advocate is part of the chat room
+    if chat_room.advocate.advocate != request.user:
+        return redirect('advocate_message_list')
+
+    # Retrieve all messages in the chat room
+    messages = Message.objects.filter(chat_room=chat_room).order_by('created_at')
+
+    if request.method == "POST":
+        content = request.POST.get('content', '').strip()
+        if content:
+            # Set the sender and recipient
+            sender = request.user
+            recipient = chat_room.user_profile.user
+
+            # Create a new message
+            Message.objects.create(
+                chat_room=chat_room,
+                sender=sender,
+                recipient=recipient,
+                content=content,
+                created_at=timezone.now()
+            )
+            return redirect('advocate_chat_room_detail', room_id=room_id)
+
+    return render(request, 'advocate/chat_room_detail.html', {
+        'chat_room': chat_room,
+        'messages': messages
+    })

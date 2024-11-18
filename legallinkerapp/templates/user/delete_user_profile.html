@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Confirm Deletion</title>
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2>Are you sure you want to delete your account?</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">
+          Yes, delete my account
+        </button>
+        <a href="{% url 'your_profile_view' %}" class="btn btn-secondary"
+          >Cancel</a
+        >
+        <!-- Change to your profile view URL -->
+      </form>
+    </div>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

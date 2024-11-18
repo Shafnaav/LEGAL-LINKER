@@ -1,126 +1,139 @@
-{% load static %}    {% load static %}
+{% load static %} {% load static %}
 
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="zxx">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Lawyer HTML-5 Template</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Lawyer HTML-5 Template</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link rel="manifest" href="site.webmanifest">
-		<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="manifest" href="site.webmanifest" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="assets/img/favicon.ico"
+    />
 
-		<!-- CSS here -->
-    
-        <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/slicknav.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/fontawesome-all.min.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/flaticon.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/slick.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}">
-        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-        
-   </head>
+    <!-- CSS here -->
 
-   <body>
-       
-   <!-- Preloader Start -->
-<div id="preloader-active">
-    <div class="preloader d-flex align-items-center justify-content-center">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/css/owl.carousel.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/slicknav.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/css/magnific-popup.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/css/fontawesome-all.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/flaticon.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+  </head>
+
+  <body>
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+      <div class="preloader d-flex align-items-center justify-content-center">
         <div class="preloader-inner position-relative">
-            <div class="preloader-circle"></div>
-            <div class="preloader-img pere-text">
-                <img src="{% static 'assets/img/logo/loder.png' %}" alt="">
-            </div>
+          <div class="preloader-circle"></div>
+          <div class="preloader-img pere-text">
+            <img src="{% static 'assets/img/logo/loder.png' %}" alt="" />
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<!-- Preloader End -->
+    <!-- Preloader End -->
 
-<header>
-    <!-- Header Start -->
-    <div class="header-area header-sticky">
+    <header>
+      <!-- Header Start -->
+      <div class="header-area header-sticky">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <!-- Logo -->
-                <div class="col-xl-2 col-lg-1 col-md-1">
-                    <div class="logo">
-                        <a href="{% url 'dashboard' %}"><img src="{% static 'assets/img/logo/logo.png' %}" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-xl-7 col-lg-8 col-md-6">
-                    <!-- Main-menu -->
-                    <div class="main-menu f-right d-none d-lg-block">
-                        <nav>
-                            <ul id="navigation">  
-                                <li><a href="{% url 'dashboard' %}">Home</a></li>
-                                <li><a href="{% url 'view_all_users' %}">All Users</a></li>
-                                <li><a href="{% url 'view_all_advocates' %}">All Advocates</a></li>
-                            
-                            </ul>
-                        </nav>
-                    </div>
-                    
-                </div>    
-                <div class="col-xl-3 col-lg-3 col-md-3">
-                    <!-- Header-btn -->
-                    <div class="header-btn d-none d-lg-block f-right">
-                        <a href="/logout" class="btn header-btn">Logout</a>
-                    </div>
-                </div>
-                <!-- Mobile Menu -->
-                <div class="col-12">
-                    <div class="mobile_menu d-block d-lg-none"></div>
-                </div>
+          <div class="row align-items-center">
+            <!-- Logo -->
+            <div class="col-xl-2 col-lg-1 col-md-1">
+              <div class="logo">
+                <a href="{% url 'adminDashboard' %}"
+                  ><img src="{% static 'assets/img/logo/logo.png' %}" alt=""
+                /></a>
+              </div>
             </div>
+            <div class="col-xl-7 col-lg-8 col-md-6">
+              <!-- Main-menu -->
+              <div class="main-menu f-right d-none d-lg-block">
+                <nav>
+                  <ul id="navigation">
+                    <li><a href="{% url 'adminDashboard' %}">Home</a></li>
+                    <li><a href="{% url 'view_all_users' %}">All Users</a></li>
+                    <li>
+                      <a href="{% url 'view_all_advocates' %}">All Advocates</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3">
+              <!-- Header-btn -->
+              <div class="header-btn d-none d-lg-block f-right">
+                <a href="/logout" class="btn header-btn">Logout</a>
+              </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="col-12">
+              <div class="mobile_menu d-block d-lg-none"></div>
+            </div>
+          </div>
         </div>
-    </div>
-    <!-- Header End -->
-</header>
+      </div>
+      <!-- Header End -->
+    </header>
     <main>
+      <!-- All JS Custom Plugins Link Here -->
+      <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+      <!-- jQuery, Popper, Bootstrap -->
+      <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+      <script src="{% static 'assets/js/popper.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+      <!-- jQuery Mobile Menu -->
+      <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
 
+      <!-- jQuery Slick, Owl-Carousel Plugins -->
+      <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'assets/js/slick.min.js' %}"></script>
 
- <!-- All JS Custom Plugins Link Here -->
- <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
- <!-- jQuery, Popper, Bootstrap -->
- <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
- <script src="{% static 'assets/js/popper.min.js' %}"></script>
- <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
- <!-- jQuery Mobile Menu -->
- <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
- 
- <!-- jQuery Slick, Owl-Carousel Plugins -->
- <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
- <script src="{% static 'assets/js/slick.min.js' %}"></script>
- 
- <!-- One Page, Animated-Headline -->
- <script src="{% static 'assets/js/wow.min.js' %}"></script>
- <script src="{% static 'assets/js/animated.headline.js' %}"></script>
- <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
- 
- <!-- Scrollup, nice-select, sticky -->
- <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
- <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
- <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
- 
- <!-- Counter, waypoint -->
- <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
- <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
- 
- <!-- Contact Form and AjaxChimp -->
- <script src="{% static 'assets/js/contact.js' %}"></script>
- <script src="{% static 'assets/js/jquery.form.js' %}"></script>
- <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
- <script src="{% static 'assets/js/mail-script.js' %}"></script>
- <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
- 
- <!-- jQuery Plugins, main jQuery -->
- <script src="{% static 'assets/js/plugins.js' %}"></script>
- <script src="{% static 'assets/js/main.js' %}"></script>
+      <!-- One Page, Animated-Headline -->
+      <script src="{% static 'assets/js/wow.min.js' %}"></script>
+      <script src="{% static 'assets/js/animated.headline.js' %}"></script>
+      <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
 
+      <!-- Scrollup, nice-select, sticky -->
+      <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+      <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+      <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+
+      <!-- Counter, waypoint -->
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+      <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+
+      <!-- Contact Form and AjaxChimp -->
+      <script src="{% static 'assets/js/contact.js' %}"></script>
+      <script src="{% static 'assets/js/jquery.form.js' %}"></script>
+      <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+      <script src="{% static 'assets/js/mail-script.js' %}"></script>
+      <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+
+      <!-- jQuery Plugins, main jQuery -->
+      <script src="{% static 'assets/js/plugins.js' %}"></script>
+      <script src="{% static 'assets/js/main.js' %}"></script>
+    </main>
+  </body>
+</html>

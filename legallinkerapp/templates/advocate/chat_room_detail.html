@@ -1,0 +1,94 @@
+{% include "advocate/header.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with {{ chat_room.user_profile.user.username }}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .chat-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        .message-sent {
+            text-align: right;
+            margin: 5px 0;
+        }
+        .message-received {
+            text-align: left;
+            margin: 5px 0;
+        }
+        .message-sent p, .message-received p {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 75%;
+        }
+        .message-sent p {
+            background-color: #d1e7dd; /* Light green */
+        }
+        .message-received p {
+            background-color: #f8d7da; /* Light red */
+        }
+        .input-group {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Chat with {{ chat_room.user_profile.user.username }}</h2>
+
+        <div class="chat-box">
+            {% for message in messages %}
+            <div class="{% if message.sender == request.user %}message-sent{% else %}message-received{% endif %}">
+                <p>{{ message.content }}</p>
+                <small>{{ message.created_at|date:"H:i" }}</small>
+            </div>
+            {% endfor %}
+        </div>
+
+        <form method="post" action="{% url 'advocate_chat_room_detail' chat_room.id %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" name="content" class="form-control" placeholder="Type a reply..." required>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- All JS Custom Plugins Link Here -->
+    <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Additional JS Scripts -->
+    <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/slick.min.js' %}"></script>
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <script src="{% static 'assets/js/animated.headline.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'assets/js/contact.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.form.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'assets/js/mail-script.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>

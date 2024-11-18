@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Advocate, Location
+from .models import Advocate
 
 admin.site.register(Advocate)
-admin.site.register(Location)

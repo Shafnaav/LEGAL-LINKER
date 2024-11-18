@@ -1,73 +1,108 @@
-{% include "user/header.html" %}
-{% load static %}
+{% include "user/header.html" %} {% load static %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">All Advocates</h2>
-    <div class="row">
-        {% for advocate in advocates %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ advocate.advocate.username }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">ID Card: {{ advocate.id_card }}</h6>
-                    <p class="card-text">
-                        <strong>Practice Area:</strong> {{ advocate.practice_area }}<br>
-                        <strong>Experience:</strong> {{ advocate.experience }} Years<br>
-                        <strong>Achievements:</strong> {{ advocate.achievements|default:"None" }}<br>
-                        <strong>Languages:</strong> {{ advocate.languages }}<br>
-                        <strong>Courts:</strong> {{ advocate.courts }}<br>
-                        <strong>Address:</strong> {{ advocate.address }}, {{ advocate.city }}, {{ advocate.location }}<br>
-                        <strong>PIN:</strong> {{ advocate.pin }}<br>
-                        <strong>Mobile:</strong> {{ advocate.mobile }}<br>
-                        <strong>Approved:</strong> {{ advocate.approved|yesno:"Yes,No" }}
-                    </p>
-                    <a href="{% url 'send_message' advocate.id %}" class="btn btn-info">Message</a>
-                </div>
-            </div>
-        </div>
-        {% empty %}
-        <div class="col-12">
-            <div class="alert alert-warning text-center" role="alert">
-                No advocates found.
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+  <h2 class="text-center mb-4">All Advocates</h2>
 
-    
-    <!-- All JS Custom Plugins Link Here -->
-    <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
-    <!-- jQuery, Popper, Bootstrap -->
-    <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
-    <script src="{% static 'assets/js/popper.min.js' %}"></script>
-    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
-    <!-- jQuery Mobile Menu -->
-    <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
-    
-    <!-- jQuery Slick, Owl-Carousel Plugins -->
-    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/js/slick.min.js' %}"></script>
-    
-    <!-- One Page, Animated-Headline -->
-    <script src="{% static 'assets/js/wow.min.js' %}"></script>
-    <script src="{% static 'assets/js/animated.headline.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
-    
-    <!-- Scrollup, nice-select, sticky -->
-    <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
-    
-    <!-- Counter, waypoint -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
-    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
-    
-    <!-- Contact Form and AjaxChimp -->
-    <script src="{% static 'assets/js/contact.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.form.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
-    <script src="{% static 'assets/js/mail-script.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
-    
-    <!-- jQuery Plugins, main jQuery -->
-    <script src="{% static 'assets/js/plugins.js' %}"></script>
-    <script src="{% static 'assets/js/main.js' %}"></script>
+  <form id="search-form" method="GET" action="{% url 'view_advocates' %}">
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <input
+          type="text"
+          name="city"
+          class="form-control"
+          placeholder="city"
+          value="{{ request.GET.city }}"
+        />
+      </div>
+     
+      <div class="col-md-4">
+        <input
+          type="text"
+          name="practice_area"
+          class="form-control"
+          placeholder="Practice Area"
+          value="{{ request.GET.practice_area }}"
+        />
+      </div>
+      <div class="col-md-4 mt-2">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    {% for advocate in advocates %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ advocate.advocate.username }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">
+            ID Card: {{ advocate.id_card }}
+          </h6>
+          <p class="card-text">
+            <strong>Practice Area:</strong> {{ advocate.practice_area }}<br />
+            <strong>Experience:</strong> {{ advocate.experience }} Years<br />
+            <strong>Achievements:</strong> {{ advocate.achievements|default:"None" }}<br />
+            <strong>Languages:</strong> {{ advocate.languages }}<br />
+            <strong>Courts:</strong> {{ advocate.courts }}<br />
+            <strong>Address:</strong> {{ advocate.address }}, {{ advocate.city }},
+            {{ advocate.location }}<br />
+            <strong>PIN:</strong> {{ advocate.pin }}<br />
+            <strong>Mobile:</strong> {{ advocate.mobile }}<br />
+            <strong>City:</strong> {{ advocate.city }}<br />
+          
+          </p>
+          <a href="{% url 'chat_room_detail' advocate.id %}" class="btn btn-success">Send Message</a>
+
+        </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="alert alert-warning text-center" role="alert">
+        No advocates found.
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+  <!-- All JS Custom Plugins Link Here -->
+  <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+  <!-- jQuery, Popper, Bootstrap -->
+  <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+  <script src="{% static 'assets/js/popper.min.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+  <!-- jQuery Mobile Menu -->
+  <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+
+  <!-- jQuery Slick, Owl-Carousel Plugins -->
+  <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/js/slick.min.js' %}"></script>
+
+  <!-- One Page, Animated-Headline -->
+  <script src="{% static 'assets/js/wow.min.js' %}"></script>
+  <script src="{% static 'assets/js/animated.headline.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+
+  <!-- Scrollup, nice-select, sticky -->
+  <script src="{% static 'assets/js/jquery.scrollUp.min.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.sticky.js' %}"></script>
+
+  <!-- Counter, waypoint -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+  <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+
+  <!-- Contact Form and AjaxChimp -->
+  <script src="{% static 'assets/js/contact.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.form.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+  <script src="{% static 'assets/js/mail-script.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+
+  <!-- jQuery Plugins, main jQuery -->
+  <script src="{% static 'assets/js/plugins.js' %}"></script>
+  <script src="{% static 'assets/js/main.js' %}"></script>
+</div>

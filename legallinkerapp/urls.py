@@ -10,7 +10,7 @@ urlpatterns = [
     path('register/user', register, name='register_user'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
-    path('dashboard/', adminDashboard, name='dashboard'),
+    path('dashboard/', adminDashboard, name='adminDashboard'),
     path('advocate/<int:advocate_id>/approve/', approve_advocate, name='approve_advocate'),
     path('', home, name='home'),
     path('services/', services, name='services'),
@@ -26,25 +26,31 @@ urlpatterns = [
     path('userDashboard/', userDashboard, name='userDashboard'),
     path('advocateDashboard/', advocateDashboard, name='advocateDashboard'),
     path('approve_user/<int:user_id>/', approve_user, name='approve_user'),
-    path('send_message/<int:recipient_id>/', send_message, name='send_message'),
-    path('sent_messages/', view_sent_messages, name='view_sent_messages'),
-    path('received_messages/', view_received_messages, name='view_received_messages'),
     path('view_advocates/', view_advocates, name='view_advocates'),
     path('view_all_users/', view_all_users, name='view_all_users'),
     path('view_all_advocates/', view_all_advocates, name='view_all_advocates'),
     path("update-user/<int:user_id>/", update_user, name="update_user"),
+    path('profile/update/', update_user_profile, name='update_user_profile'),
     path("delete-user/<int:user_id>/",delete_user, name="delete_user"),
     path('advocate/update/<int:advocate_id>/', update_advocate, name='update_advocate'),
     path('advocate/delete/<int:advocate_id>/', delete_advocate, name='delete_advocate'),
     
-     path('user/profile/', view_user_profile, name='view_user_profile'),
+    path('user/profile/', view_user_profile, name='view_user_profile'),
     path('user/profile/update/', update_user_profile, name='update_user_profile'),
     path('user/password/change/', change_user_password, name='change_user_password'),
+    path('delete_user_profile/', delete_user_profile, name='delete_user_profile'),
     
     path('advocate/profile/', view_advocate_profile, name='view_advocate_profile'),
     path('advocate/profile/update/', update_advocate_profile, name='update_advocate_profile'),
     path('advocate/password/change/', change_advocate_password, name='change_advocate_password'),
+    
+    path('chat_rooms/', chat_room_list, name='chat_room_list'),
+    path('chat_room/<int:advocate_id>/', chat_room_detail, name='chat_room_detail'),
+    path('send_message/<int:room_id>/',send_message, name='send_message'),
+    path('advocate/messages/', advocate_message_list, name='advocate_message_list'),
+    path('advocate/messages/<int:room_id>/', advocate_chat_room_detail, name='advocate_chat_room_detail'),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

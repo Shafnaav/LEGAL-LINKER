@@ -1,94 +1,246 @@
-{% load static %}
-{% if user.is_authenticated %}
-    {% if user.userprofile %}
-        {% include 'user/header.html' %}
-    {% else %}
-        {% include 'advocate/header.html' %}
-    {% endif %}
-{% endif %}
-{% block content %}
+{% load static %} {% if user.is_authenticated %} {% if user.userprofile %}
+{%include 'user/header.html' %} {% else %} {% include 'advocate/header.html' %}
+{% endif %} {% endif %} {% block content %}
 <div class="container">
-    <h2>Your User Profile</h2>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">{{ user.username }}</h5>
-            <p class="card-text">First Name: {{ user_profile.first_name }}</p>
-            <p class="card-text">Last Name: {{ user_profile.last_name }}</p>
-            {% if user_profile.profile_pic %}
-                <img src="{{ user_profile.profile_pic.url }}" alt="Profile Picture" class="img-fluid rounded-circle" />
-            {% endif %}
-            <button class="btn btn-primary" data-toggle="modal" data-target="#updateUserProfileModal">Edit User Profile</button>
-            <button class="btn btn-secondary" data-toggle="modal" data-target="#changeUserPasswordModal">Change Password</button>
-        </div>
+  <h2>Your User Profile</h2>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ user.username }}</h5>
+      <p class="card-text">First Name: {{ user_profile.first_name }}</p>
+      <p class="card-text">Last Name: {{ user_profile.last_name }}</p>
+      <p class="card-text">Phone Number: {{ user_profile.phone_number }}</p>
+      {% if user_profile.profile_pic %}
+      <img
+        src="{{ user_profile.profile_pic.url }}"
+        alt="Profile Picture"
+        class="img-fluid rounded-circle"
+      />
+      {% endif %}
+      <button
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#updateUserProfileModal"
+      >
+        Edit User Profile
+      </button>
+      <button
+        class="btn btn-secondary"
+        data-toggle="modal"
+        data-target="#changeUserPasswordModal"
+      >
+        Change Password
+      </button>
     </div>
-
-    <!-- User Profile Update Modal -->
-    <div class="modal fade" id="updateUserProfileModal" tabindex="-1" role="dialog" aria-labelledby="updateUserProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateUserProfileModalLabel">Edit User Profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="POST" enctype="multipart/form-data" id="updateUserProfileForm">
-                    {% csrf_token %}
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="first_name">First Name:</label>
-                            <input type="text" class="form-control" name="first_name" value="{{ user_profile.first_name }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name">Last Name:</label>
-                            <input type="text" class="form-control" name="last_name" value="{{ user_profile.last_name }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="profile_pic">Profile Picture:</label>
-                            <input type="file" class="form-control" name="profile_pic">
-                        </div>
-                       
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
+  </div>
+<!-- User Profile Update Modal -->
+<div
+    class="modal fade"
+    id="updateUserProfileModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="updateUserProfileModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateUserProfileModalLabel">
+                    Edit User Profile
+                </h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-    </div>
-
-    <!-- Change Password Modal -->
-    <div class="modal fade" id="changeUserPasswordModal" tabindex="-1" role="dialog" aria-labelledby="changeUserPasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changeUserPasswordModalLabel">Change User Password</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+            <form method="POST" action="{% url 'update_user_profile' %}" enctype="multipart/form-data" id="updateUserProfileForm">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="first_name">First Name:</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="first_name"
+                            value="{{ user_profile.first_name }}"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name:</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="last_name"
+                            value="{{ user_profile.last_name }}"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            name="email"
+                            value="{{ user_profile.user.email }}"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number">Phone Number:</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="phone_number"
+                            value="{{ user_profile.phone_number }}"
+                            required
+                        />
+                    <div class="form-group">
+                        <label for="profile_pic">Profile Picture:</label>
+                        <input type="file" class="form-control" name="profile_pic" />
+                    </div>
                 </div>
-                <form method="POST" id="changeUserPasswordForm">
-                    {% csrf_token %}
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="current_password">Current Password:</label>
-                            <input type="password" class="form-control" name="current_password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="new_password">New Password:</label>
-                            <input type="password" class="form-control" name="new_password" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Change Password</button>
-                    </div>
-                </form>
-            </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+  <!-- Change Password Modal -->
+  <div
+  class="modal fade"
+  id="changeUserPasswordModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="changeUserPasswordModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changeUserPasswordModalLabel">
+          Change User Password
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form
+        method="POST"
+        action="{% url 'change_user_password' %}"  <!-- Set action to view URL -->
+        id="changeUserPasswordForm"
+      >
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="current_password">Current Password:</label>
+            <input
+              type="password"
+              class="form-control"
+              name="current_password"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="new_password">New Password:</label>
+            <input
+              type="password"
+              class="form-control"
+              name="new_password"
+              required
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Change Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <button
+    class="btn btn-danger"
+    data-toggle="modal"
+    data-target="#deleteUserProfileModal"
+  >
+    Delete Account
+  </button>
+
+  <!-- Delete Account Modal -->
+  <div
+    class="modal fade"
+    id="deleteUserProfileModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="deleteUserProfileModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteUserProfileModalLabel">
+            Delete Account
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Are you sure you want to delete your account? This action cannot be
+            undone.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <form method="POST" action="{% url 'delete_user_profile' %}">
+            {% csrf_token %}
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-danger">Delete Account</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 <!-- All JS Custom Plugins Link Here -->

@@ -2,6 +2,15 @@
 
 {% load static %}
 {% include "user/header.html" %}
+{% if messages %}
+<div class="alert alert-danger">
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 <!-- Slider Area Start -->
 <div class="slider-area ">
     <div class="slider-active">
@@ -20,7 +29,7 @@
             <div class="slider-bottom">
                 <div class="slider-bottom-cap" data-animation="fadeInLeft" data-delay=".6s">
                     <p>Schedule a Free Consultation 24/7</p>
-                    <span>01654.066.456</span>
+                    <span>+91-9898765645</span>
                 </div>
                 <div class="slider-video d-flex align-items-center" data-animation="fadeInRight" data-delay=".8s">
                     <a class="popup-video ani-btn" href="https://www.youtube.com/watch?v=1aP-TXUpNoU">
